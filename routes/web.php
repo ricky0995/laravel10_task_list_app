@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,8 +66,13 @@ $tasks = [
   ),
 ];
 
+
+Route::get('/', function(){
+    return redirect()->route('tasks.index');
+});
+
 // To Use a Variable with anonymous function, need to type 'use' keyword
-Route::get('/', function () use ($tasks) {
+Route::get('/tasks', function () use ($tasks) {
     return view('index', [
         'tasks' => $tasks
         
@@ -78,8 +83,15 @@ Route::get('/', function () use ($tasks) {
     // return view('welcome');
 })->name('tasks.index');
 
-Route::get('/{id}', function ($id){
-    return 'One single task';
+Route::get('/tasks/{id}', function ($id) use ($tasks) {
+
+    // colect function is from laravel, it is a collection object with some function
+    $task = collect($tasks)->firstWhere('id', $id);
+    if(!$task) {
+        abort(Response::HTTP_NOT_FOUND);
+    }
+    return view('show', ['task' => $task]);
+    // return 'One single task';
 })->name('tasks.show');
 
 
