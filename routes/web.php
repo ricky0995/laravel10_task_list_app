@@ -23,7 +23,7 @@ Route::get('/', function(){
 // To Use a Variable with anonymous function, need to type 'use' keyword
 Route::get('/tasks', function () {
   return view('index', [
-    'tasks' => Task::latest()->get(),
+    'tasks' => Task::latest()->paginate(10),
   ]);
 })->name('tasks.index');
 
