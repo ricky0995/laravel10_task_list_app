@@ -28,7 +28,7 @@ Route::get('/tasks', function () {
 })->name('tasks.index');
 
 
-Route::view('/tasks/create', 'create');
+Route::view('/tasks/create', 'create')->name('tasks.create');
 
 
 Route::get('/tasks/{task}', function (Task $task) {
@@ -65,7 +65,10 @@ Route::delete('/tasks/{task}', function (Task $task){
   return redirect()->route('tasks.index')->with('success', 'Task Deleted Successfully');
 })->name('tasks.destroy');
 
-
+route::put('tasks/{task}/toggle-complete', function(Task $task) {
+  $task->toggleComplete();
+  return redirect()->back()->with('success', 'Task updated successfully!');
+})->name('tasks.toggle-complete');
 
 // // example of named route
 // Route::get('/hello', function(){

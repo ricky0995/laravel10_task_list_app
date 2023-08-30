@@ -11,4 +11,9 @@ class Task extends Model
 
     // in a model we need to define which column in db is permitted to modify, the column not specified below will not be able to modify
     protected $fillable = ['title', 'description', 'long_description'];
+
+    public function toggleComplete() {
+        $this->completed = !$this->completed;
+        $this->save();
+    }
 }
